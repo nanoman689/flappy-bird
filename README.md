@@ -1,2 +1,0 @@
-# fizzbuzz
-# fb_refactor
