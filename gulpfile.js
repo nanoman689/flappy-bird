@@ -27,7 +27,7 @@ gulp.task('sass', function() {
 
 // Watch task
 gulp.task('watch', function() {
-  gulp.watch('site/js/*.js', ['jshint']);
+  gulp.watch('site/js/*.js', ['jshint','scripts']);
   gulp.watch('site/scss/*.scss', ['sass']);
 });
 
@@ -44,7 +44,7 @@ gulp.task('scripts', function() {
     .bundle()
     .pipe(source('app.js'))
     .pipe(buffer())
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest('build/js'));
 });
 
