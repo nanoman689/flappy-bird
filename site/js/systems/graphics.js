@@ -31,7 +31,6 @@ GraphicsSystem.prototype.tick = function() {
             continue;
         }
 
-        entity.components.graphics.move(this.context);
         entity.components.graphics.draw(this.context);
     }
 
