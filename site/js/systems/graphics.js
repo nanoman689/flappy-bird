@@ -28,8 +28,10 @@ GraphicsSystem.prototype.tick = function() {
         if (!'graphics' in entity.components) {
             continue;
         }
-
+        
+        entity.components.graphics.move(this.context);
         entity.components.graphics.draw(this.context);
+
     }
 
     // Continue the render loop
