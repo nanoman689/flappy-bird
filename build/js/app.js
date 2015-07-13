@@ -5,18 +5,47 @@ var BirdGraphicsComponent = function(entity) {
 
 // Use variables to make the animation //
 
-BirdGraphicsComponent.prototype.draw = function(context, position, size) {
+BirdGraphicsComponent.prototype.draw = function(context) {
+    var position = this.entity.components.physics.position;
+
     context.save();
     context.translate(position.x, position.y);
-    context.scale(size, size);
     context.beginPath();
-    context.arc(0, 0, 1, 0, 2 * Math.PI);
+    context.arc(0, 0, 0.02, 0, 2 * Math.PI);
     context.fill();
+    context.closePath();
     context.restore();
 };
 
 exports.BirdGraphicsComponent = BirdGraphicsComponent;
 },{}],2:[function(require,module,exports){
+var PhysicsComponent = function(entity) {
+    this.entity = entity;
+
+    this.position = {
+        x: 0,
+        y: 0
+    };
+    this.velocity = {
+        x: 0,
+        y: 0
+    };
+    this.acceleration = {
+        x: 0,
+        y: 0
+    };
+};
+
+PhysicsComponent.prototype.update = function(delta) {
+    this.velocity.x += this.acceleration.x * delta;
+    this.velocity.y += this.acceleration.y * delta;
+
+    this.position.x += this.velocity.x * delta;
+    this.position.y += this.velocity.y * delta;
+};
+
+exports.PhysicsComponent = PhysicsComponent;
+},{}],3:[function(require,module,exports){
 var graphicsComponent = require("../components/graphics/bird");
 
 var Bird = function(x,y) {
@@ -29,21 +58,42 @@ var Bird = function(x,y) {
 };
 
 exports.Bird = Bird;
-},{"../components/graphics/bird":1}],3:[function(require,module,exports){
+},{"../components/graphics/bird":1}],4:[function(require,module,exports){
 var graphicsSystem = require('./systems/graphics');
+var physicsSystem = require('./systems/physics');
+
 var bird = require('./entities/bird');
 
-var FlappyBird = function() {
+var CrappyBird = function() {
     this.entities = [new bird.Bird()];
     this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
+    this.physics = new physicsSystem.PhysicsSystem(this.entities);
 };
 
-FlappyBird.prototype.run = function() {
+CrappyBird.prototype.run = function() {
     this.graphics.run();
+    this.physics.run();
 };
 
-exports.FlappyBird = FlappyBird;
-},{"./entities/bird":2,"./systems/graphics":5}],4:[function(require,module,exports){
+exports.CrappyBird = CrappyBird;
+
+var physicsComponent = require("./components/physics/physics");
+
+var Bird = function() {
+    var physics = new physicsComponent.PhysicsComponent(this);
+    physics.position.y = 0.5;
+    physics.acceleration.y = -2;
+
+    var graphics = new graphicsComponent.BirdGraphicsComponent(this);
+
+    this.components = {
+        physics: physics,
+        graphics: graphics,
+    };
+};
+
+exports.Bird = Bird;
+},{"./components/physics/physics":2,"./entities/bird":3,"./systems/graphics":6,"./systems/physics":7}],5:[function(require,module,exports){
 var flappyBird = require('./flappy_bird');
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -51,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log(app);
     app.run();
 });
-},{"./flappy_bird":3}],5:[function(require,module,exports){
+},{"./flappy_bird":4}],6:[function(require,module,exports){
 var GraphicsSystem = function(entities) {
     this.entities = entities;
     // Canvas is where we draw
@@ -94,4 +144,26 @@ GraphicsSystem.prototype.tick = function() {
 };
 
 exports.GraphicsSystem = GraphicsSystem;
-},{}]},{},[4]);
+},{}],7:[function(require,module,exports){
+var PhysicsSystem = function(entities) {
+    this.entities = entities;
+};
+
+PhysicsSystem.prototype.run = function() {
+    // Run the update loop
+    window.setInterval(this.tick.bind(this), 1000 /60);
+};
+
+PhysicsSystem.prototype.tick = function() {
+    for (var i=0; i<this.entities.length; i++) {
+        var entity = this.entities[i];
+        if (!'physics' in entity.components) {
+            continue;
+        }
+
+        entity.components.physics.update(1/60);
+    }
+};
+
+exports.PhysicsSystem = PhysicsSystem;
+},{}]},{},[5]);
