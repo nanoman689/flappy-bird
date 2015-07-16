@@ -169,6 +169,11 @@ InputSystem.prototype.onClick = function() {
     bird.components.physics.velocity.y = 0.7;
 };
 
+InputSystem.prototype.onTouch = function() {
+    var bird = this.entities[0];
+    bird.components.physics.velocity.y = 0.7;
+};
+
 exports.InputSystem = InputSystem;
 },{}],8:[function(require,module,exports){
 var PhysicsSystem = function(entities) {
