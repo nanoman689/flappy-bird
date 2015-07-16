@@ -19,6 +19,26 @@ BirdGraphicsComponent.prototype.draw = function(context) {
 
 exports.BirdGraphicsComponent = BirdGraphicsComponent;
 },{}],2:[function(require,module,exports){
+var PipeGraphicsComponent = function(entity) {
+    this.entity = entity;
+};
+
+// Use variables to make the animation //
+
+PipeGraphicsComponent.prototype.draw = function(context) {
+	console.log('Drawing Pipe');
+    var position = this.entity.components.physics.position;
+    console.log(position.x + " " + position.y);
+
+    context.save();
+    context.translate(position.x, position.y);
+    context.fillStyle = "orange";
+    context.fillRect(10,10,20,20);
+    context.restore();
+};
+
+exports.PipeGraphicsComponent = PipeGraphicsComponent;
+},{}],3:[function(require,module,exports){
 var PhysicsComponent = function(entity) {
     this.entity = entity;
 
@@ -45,7 +65,38 @@ PhysicsComponent.prototype.update = function(delta) {
 };
 
 exports.PhysicsComponent = PhysicsComponent;
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
+var PipePhysicsComponent = function(entity) {
+    this.entity = entity;
+
+    this.position = {
+        x: 0,
+        y: 0
+    };
+    this.velocity = {
+        x: 0,
+        y: 0
+    };
+    this.acceleration = {
+        x: 0,
+        y: 0
+    };
+};
+
+PipePhysicsComponent.prototype.update = function(delta) {
+    console.log('Updating Pipe');
+/*
+    this.velocity.x += this.acceleration.x * delta;
+    this.velocity.y += this.acceleration.y * delta;
+
+    this.position.x += this.velocity.x * delta;
+    this.position.y += this.velocity.y * delta;
+*/
+
+};
+
+exports.PipePhysicsComponent = PipePhysicsComponent;
+},{}],5:[function(require,module,exports){
 var graphicsComponent = require("../components/graphics/bird");
 var physicsComponent = require("../components/physics/physics");
 
@@ -63,15 +114,34 @@ var Bird = function(x,y) {
 };
 
 exports.Bird = Bird;
-},{"../components/graphics/bird":1,"../components/physics/physics":2}],4:[function(require,module,exports){
+},{"../components/graphics/bird":1,"../components/physics/physics":3}],6:[function(require,module,exports){
+var graphicsComponent = require("../components/graphics/pipeGraphic");
+var physicsComponent = require("../components/physics/physicsPipe");
+
+var Pipe = function(x,y) {
+    console.log("Creating Pipe entity");
+
+    var physics = new physicsComponent.PipePhysicsComponent(this);
+
+    var graphics = new graphicsComponent.PipeGraphicsComponent(this);
+    this.components = {
+        graphics: graphics,
+        physics: physics
+    };
+
+};
+
+exports.Pipe = Pipe;
+},{"../components/graphics/pipeGraphic":2,"../components/physics/physicsPipe":4}],7:[function(require,module,exports){
 var graphicsSystem = require('./systems/graphics');
 var physicsSystem = require('./systems/physics');
 var inputSystem = require("./systems/input");
 
 var bird = require('./entities/bird');
+var pipe = require('./entities/pipe');
 
 var CrappyBird = function() {
-    this.entities = [new bird.Bird()];
+    this.entities = [new bird.Bird(25,100),new pipe.Pipe(20,10)];
     this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
     this.physics = new physicsSystem.PhysicsSystem(this.entities);
     this.input = new inputSystem.InputSystem(this.entities);
@@ -85,6 +155,7 @@ CrappyBird.prototype.run = function() {
 
 exports.CrappyBird = CrappyBird;
 
+/*
 var physicsComponent = require("./components/physics/physics");
 
 var Bird = function() {
@@ -101,7 +172,26 @@ var Bird = function() {
 };
 
 exports.Bird = Bird;
-},{"./components/physics/physics":2,"./entities/bird":3,"./systems/graphics":6,"./systems/input":7,"./systems/physics":8}],5:[function(require,module,exports){
+
+var pipePhysicsComponent = require("./components/physics/physicsPipe");
+
+var Pipe = function() {
+    var physics = new physicsComponent.PipePhysicsComponent(this);
+    physics.position.y = 0.5;
+    physics.acceleration.y = -0;
+
+    var graphics = new graphicsComponent.PipeGraphicsComponent(this);
+
+    this.components = {
+        physics: physics,
+        graphics: graphics,
+    };
+};
+
+exports.Pipe = Pipe;
+
+*/
+},{"./entities/bird":5,"./entities/pipe":6,"./systems/graphics":9,"./systems/input":10,"./systems/physics":11}],8:[function(require,module,exports){
 var flappyBird = require('./flappy_bird');
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -109,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log(app);
     app.run();
 });
-},{"./flappy_bird":4}],6:[function(require,module,exports){
+},{"./flappy_bird":7}],9:[function(require,module,exports){
 var GraphicsSystem = function(entities) {
     this.entities = entities;
     // Canvas is where we draw
@@ -152,7 +242,7 @@ GraphicsSystem.prototype.tick = function() {
 };
 
 exports.GraphicsSystem = GraphicsSystem;
-},{}],7:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var InputSystem = function(entities) {
     this.entities = entities;
 
@@ -175,7 +265,7 @@ InputSystem.prototype.onTouch = function() {
 };
 
 exports.InputSystem = InputSystem;
-},{}],8:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var PhysicsSystem = function(entities) {
     this.entities = entities;
 };
@@ -197,4 +287,4 @@ PhysicsSystem.prototype.tick = function() {
 };
 
 exports.PhysicsSystem = PhysicsSystem;
-},{}]},{},[5]);
+},{}]},{},[8]);
