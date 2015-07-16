@@ -47,20 +47,26 @@ PhysicsComponent.prototype.update = function(delta) {
 exports.PhysicsComponent = PhysicsComponent;
 },{}],3:[function(require,module,exports){
 var graphicsComponent = require("../components/graphics/bird");
+var physicsComponent = require("../components/physics/physics");
 
 var Bird = function(x,y) {
     console.log("Creating Bird entity");
 
+    var physics = new physicsComponent.PhysicsComponent(this);
+
     var graphics = new graphicsComponent.BirdGraphicsComponent(this);
     this.components = {
-        graphics: graphics
+        graphics: graphics,
+        physics: physics
     };
+
 };
 
 exports.Bird = Bird;
-},{"../components/graphics/bird":1}],4:[function(require,module,exports){
+},{"../components/graphics/bird":1,"../components/physics/physics":2}],4:[function(require,module,exports){
 var graphicsSystem = require('./systems/graphics');
 var physicsSystem = require('./systems/physics');
+var inputSystem = require("./systems/input");
 
 var bird = require('./entities/bird');
 
@@ -68,11 +74,13 @@ var CrappyBird = function() {
     this.entities = [new bird.Bird()];
     this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
     this.physics = new physicsSystem.PhysicsSystem(this.entities);
+    this.input = new inputSystem.InputSystem(this.entities);
 };
 
 CrappyBird.prototype.run = function() {
     this.graphics.run();
     this.physics.run();
+    this.input.run();
 };
 
 exports.CrappyBird = CrappyBird;
@@ -93,11 +101,11 @@ var Bird = function() {
 };
 
 exports.Bird = Bird;
-},{"./components/physics/physics":2,"./entities/bird":3,"./systems/graphics":6,"./systems/physics":7}],5:[function(require,module,exports){
+},{"./components/physics/physics":2,"./entities/bird":3,"./systems/graphics":6,"./systems/input":7,"./systems/physics":8}],5:[function(require,module,exports){
 var flappyBird = require('./flappy_bird');
 
 document.addEventListener('DOMContentLoaded', function() {
-    var app = new flappyBird.FlappyBird();
+    var app = new flappyBird.CrappyBird();
     console.log(app);
     app.run();
 });
@@ -145,6 +153,24 @@ GraphicsSystem.prototype.tick = function() {
 
 exports.GraphicsSystem = GraphicsSystem;
 },{}],7:[function(require,module,exports){
+var InputSystem = function(entities) {
+    this.entities = entities;
+
+    // Canvas is where we get input from
+    this.canvas = document.getElementById('main-canvas');
+};
+
+InputSystem.prototype.run = function() {
+    this.canvas.addEventListener('click', this.onClick.bind(this));
+};
+
+InputSystem.prototype.onClick = function() {
+    var bird = this.entities[0];
+    bird.components.physics.velocity.y = 0.7;
+};
+
+exports.InputSystem = InputSystem;
+},{}],8:[function(require,module,exports){
 var PhysicsSystem = function(entities) {
     this.entities = entities;
 };
