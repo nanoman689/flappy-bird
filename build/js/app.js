@@ -26,14 +26,16 @@ var PipeGraphicsComponent = function(entity) {
 // Use variables to make the animation //
 
 PipeGraphicsComponent.prototype.draw = function(context) {
-	console.log('Drawing Pipe');
+	/* console.log('Drawing Pipe'); */
+
     var position = this.entity.components.physics.position;
+
     console.log(position.x + " " + position.y);
 
     context.save();
     context.translate(position.x, position.y);
     context.fillStyle = "orange";
-    context.fillRect(10,10,20,20);
+    context.fillRect(-0.1,-0.1,0.1,0.2);
     context.restore();
 };
 
@@ -77,21 +79,26 @@ var PipePhysicsComponent = function(entity) {
         x: 0,
         y: 0
     };
+/*
     this.acceleration = {
         x: 0,
         y: 0
     };
+*/
+
 };
 
 PipePhysicsComponent.prototype.update = function(delta) {
-    console.log('Updating Pipe');
-/*
+
+    /*
     this.velocity.x += this.acceleration.x * delta;
+
     this.velocity.y += this.acceleration.y * delta;
+    */
 
     this.position.x += this.velocity.x * delta;
+
     this.position.y += this.velocity.y * delta;
-*/
 
 };
 
@@ -118,16 +125,32 @@ exports.Bird = Bird;
 var graphicsComponent = require("../components/graphics/pipeGraphic");
 var physicsComponent = require("../components/physics/physicsPipe");
 
-var Pipe = function(x,y) {
+var Pipe = function(xP,yP) {
     console.log("Creating Pipe entity");
 
     var physics = new physicsComponent.PipePhysicsComponent(this);
 
     var graphics = new graphicsComponent.PipeGraphicsComponent(this);
+
     this.components = {
         graphics: graphics,
         physics: physics
     };
+
+
+    this.position = {
+        x: xP,
+        y: yP
+    };
+    this.velocity = {
+        x: 0,
+        y: 0
+    };
+    this.acceleration = {
+        x: 0,
+        y: 0
+    };
+
 
 };
 
@@ -141,7 +164,7 @@ var bird = require('./entities/bird');
 var pipe = require('./entities/pipe');
 
 var CrappyBird = function() {
-    this.entities = [new bird.Bird(25,100),new pipe.Pipe(20,10)];
+    this.entities = [new bird.Bird(25,100),new pipe.Pipe(0.1, 0.5), new pipe.Pipe(0.1, 0.1)];
     this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
     this.physics = new physicsSystem.PhysicsSystem(this.entities);
     this.input = new inputSystem.InputSystem(this.entities);
