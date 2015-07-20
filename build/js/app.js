@@ -28,15 +28,24 @@ var PipeGraphicsComponent = function(entity) {
 PipeGraphicsComponent.prototype.draw = function(context) {
 	/* console.log('Drawing Pipe'); */
 
-    var position = this.entity.components.physics.position;
+    var position = this.entity.position;
+    var dimen = this.entity.dimension;
+    var pipeGraphicPos = context.getImageData(position.x,position.y,1,1);
+    /*
+    var pipeTime = PhysicsSystem.prototype.tick;
+	*/
+	var pipeTime = context.prototype.tick;
 
     console.log(position.x + " " + position.y);
+    console.log("pipe position is now" + pipeGraphicPos);
+
 
     context.save();
     context.translate(position.x, position.y);
     context.fillStyle = "orange";
-    context.fillRect(-0.1,-0.1,0.1,0.2);
+    context.fillRect(0,0,dimen.height,dimen.width);
     context.restore();
+
 };
 
 exports.PipeGraphicsComponent = PipeGraphicsComponent;
@@ -76,7 +85,7 @@ var PipePhysicsComponent = function(entity) {
         y: 0
     };
     this.velocity = {
-        x: 0,
+        x: -0.01,
         y: 0
     };
 /*
@@ -94,11 +103,15 @@ PipePhysicsComponent.prototype.update = function(delta) {
     this.velocity.x += this.acceleration.x * delta;
 
     this.velocity.y += this.acceleration.y * delta;
-    */
-
+    
     this.position.x += this.velocity.x * delta;
 
     this.position.y += this.velocity.y * delta;
+    */
+
+    this.entity.position.x += this.velocity.x;
+
+    this.entity.position.y += this.velocity.y;
 
 };
 
@@ -125,7 +138,7 @@ exports.Bird = Bird;
 var graphicsComponent = require("../components/graphics/pipeGraphic");
 var physicsComponent = require("../components/physics/physicsPipe");
 
-var Pipe = function(xP,yP) {
+var Pipe = function(xP,yP, h) {
     console.log("Creating Pipe entity");
 
     var physics = new physicsComponent.PipePhysicsComponent(this);
@@ -136,7 +149,10 @@ var Pipe = function(xP,yP) {
         graphics: graphics,
         physics: physics
     };
-
+    this.dimension = {
+    	width: 0.1,
+    	height: h,
+    }
 
     this.position = {
         x: xP,
@@ -164,7 +180,7 @@ var bird = require('./entities/bird');
 var pipe = require('./entities/pipe');
 
 var CrappyBird = function() {
-    this.entities = [new bird.Bird(25,100),new pipe.Pipe(0.1, 0.5), new pipe.Pipe(0.1, 0.1)];
+    this.entities = [new bird.Bird(25,100),new pipe.Pipe(0.9, 0.1, 0.1), new pipe.Pipe(0.9, 0.8, 0.1)];
     this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
     this.physics = new physicsSystem.PhysicsSystem(this.entities);
     this.input = new inputSystem.InputSystem(this.entities);
