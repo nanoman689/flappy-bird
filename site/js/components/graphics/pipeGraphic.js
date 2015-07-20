@@ -9,15 +9,10 @@ PipeGraphicsComponent.prototype.draw = function(context) {
 
     var position = this.entity.position;
     var dimen = this.entity.dimension;
-    var pipeGraphicPos = context.getImageData(position.x,position.y,1,1);
+
     /*
-    var pipeTime = PhysicsSystem.prototype.tick;
-	*/
-	var pipeTime = context.prototype.tick;
-
     console.log(position.x + " " + position.y);
-    console.log("pipe position is now" + pipeGraphicPos);
-
+	*/
 
     context.save();
     context.translate(position.x, position.y);
