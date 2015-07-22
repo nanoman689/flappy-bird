@@ -1,7 +1,7 @@
 var graphicsComponent = require("../components/graphics/pipeGraphic");
 var physicsComponent = require("../components/physics/physicsPipe");
 
-var Pipe = function(xP,yP, h) {
+var Pipe = function(xP,yP,pipeWidth) {
     console.log("Creating Pipe entity");
 
     var physics = new physicsComponent.PipePhysicsComponent(this);
@@ -13,23 +13,24 @@ var Pipe = function(xP,yP, h) {
         physics: physics
     };
     this.dimension = {
-    	width: 0.1,
-    	height: h,
+    	width: 0.2,
+    	height: 0.1,
     }
 
     this.position = {
         x: xP,
         y: yP
     };
+
     this.velocity = {
         x: 0,
         y: 0
     };
+    
     this.acceleration = {
         x: 0,
         y: 0
     };
-
 
 };
 
