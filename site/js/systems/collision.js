@@ -1,3 +1,5 @@
+var bird = require("../entities/bird")
+
 var CollisionSystem = function(entities) {
     this.entities = entities;
 };
@@ -28,6 +30,20 @@ CollisionSystem.prototype.tick = function() {
             }
         }
     }
+    this.endGame();
 };
+
+CollisionSystem.prototype.endGame =function () {
+    for (var i=0; i<this.entities.length; i++) {
+        var entityA = this.entities[i];
+        if (entityA instanceof bird.Bird) {
+            console.log("Bird Song");
+            if(entityA.collided){
+                    this.entities = [new bird.Bird(25,100)];
+                    console.log("Game Reset");
+            }
+        }
+    }    
+}
 
 exports.CollisionSystem = CollisionSystem;

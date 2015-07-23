@@ -24,6 +24,7 @@ PhysicsSystem.prototype.tick = function() {
 
     }
     
+    this.collisionSystem.tick();
 };
 
 PhysicsSystem.prototype.pipeTick = function(){

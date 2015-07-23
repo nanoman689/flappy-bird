@@ -27,6 +27,9 @@ var Bird = function(x,y) {
 
 Bird.prototype.onCollision = function(entity) {
     console.log("Bird collided with entity:", entity);
+    /*  Delete everything from the entries array */
+    this.collided = true;
+
 };
 
 exports.Bird = Bird;
