@@ -1,47 +1,28 @@
-var graphicsComponent = require("../components/graphics/pipeGraphic");
-var physicsComponent = require("../components/physics/physicsPipe");
+var graphicsComponent = require("../components/graphics/pipe");
+var physicsComponent = require("../components/physics/pipe");
 var collisionComponent = require("../components/collision/rect");
 
-var Pipe = function(xP,yP,pipeWidth) {
-    console.log("Creating Pipe entity");
 
-    var physics = new physicsComponent.PipePhysicsComponent(this);
+var Pipe = function(position, dimension) {
 
-    var graphics = new graphicsComponent.PipeGraphicsComponent(this);
+  var graphics = new graphicsComponent.PipeGraphicsComponent(this);
+  var physics = new physicsComponent.PhysicsComponent(this);
+  physics.position = position;
+  physics.dimension = dimension;
+  physics.acceleration.y = 0;
 
-    var collision = new collisionComponent.RectCollisionComponent(this, 0.02);
+  var collision = new collisionComponent.RectCollisionComponent(this, physics.dimension);
+  collision.onCollision = this.onCollision.bind(this);
 
-    collision.onCollision = this.onCollision.bind(this);
-
-    this.components = {
-        graphics: graphics,
-        physics: physics,
-        collision: collision
-    };
-    this.dimension = {
-    	width: 0.2,
-    	height: 0.1,
-    }
-
-    this.position = {
-        x: xP,
-        y: yP
-    };
-
-    this.velocity = {
-        x: 0,
-        y: 0
-    };
-    
-    this.acceleration = {
-        x: 0,
-        y: 0
-    };
-
+  this.components = {
+    graphics: graphics,
+    physics: physics,
+    collision:collision
+  };
 };
 
 Pipe.prototype.onCollision = function(entity) {
-    console.log("Pipe collided with entity:", entity);
+  console.log("Pipe collided with entity:", entity);
 };
 
 exports.Pipe = Pipe;

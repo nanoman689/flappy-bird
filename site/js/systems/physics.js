@@ -23,7 +23,7 @@ PhysicsSystem.prototype.tick = function() {
         entity.components.physics.update(1/60);
 
     }
-    
+
     this.collisionSystem.tick();
 };
 
@@ -36,12 +36,12 @@ PhysicsSystem.prototype.pipeTick = function(){
   console.log(randomWidth + "is now this tall");
 
   */
-  
+
   this.entities.push(new pipe.Pipe(0.9, 0.8, 0.2, 0.1));
   this.entities.push(new pipe.Pipe(0.9, 0.1, 0.2, 0.1));
 
   console.log("Length of array before: " + this.entities.length);
-  
+
   for (var i=0; i < this.entities.length; i++) {
       var entity = this.entities[i];
       console.log(entity);

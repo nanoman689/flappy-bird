@@ -33,6 +33,8 @@ CollisionSystem.prototype.tick = function() {
     this.endGame();
 };
 
+/* game reset */
+
 CollisionSystem.prototype.endGame =function () {
     for (var i=0; i<this.entities.length; i++) {
         var entityA = this.entities[i];

@@ -1,35 +1,30 @@
-var physicsComponent = require("../components/physics/physics");
 var graphicsComponent = require("../components/graphics/bird");
+var physicsComponent = require("../components/physics/bird");
 var collisionComponent = require("../components/collision/circle");
-/*
-var settings = require("../settings");
-*/
 
-var Bird = function(x,y) {
-    console.log("Creating Bird entity");
 
-	var physics = new physicsComponent.PhysicsComponent(this);
-    
-    physics.position.y = 0.5;
-    physics.acceleration.y = -2;
+var Bird = function(fb_app) {
+  this.app = fb_app;
+  var graphics = new graphicsComponent.BirdGraphicsComponent(this);
+  var physics = new physicsComponent.PhysicsComponent(this);
+  physics.position.y = 0.5;
+  physics.position.x = 0;
+  physics.acceleration.y = -2;
 
-    var graphics = new graphicsComponent.BirdGraphicsComponent(this);
-    var collision = new collisionComponent.CircleCollisionComponent(this, 0.02);
-    
-    collision.onCollision = this.onCollision.bind(this);
+  var collision = new collisionComponent.CircleCollisionComponent(this, 0.02);
+  collision.onCollision = this.onCollision.bind(this);
 
-    this.components = {
-        physics: physics,
-        graphics: graphics,
-        collision: collision
-    };
+  this.components = {
+    graphics: graphics,
+    physics: physics,
+    collision:collision
+  };
 };
 
 Bird.prototype.onCollision = function(entity) {
-    console.log("Bird collided with entity:", entity);
-    /*  Delete everything from the entries array */
-    this.collided = true;
-
+  console.log("Bird collided with entity:", entity);
+  /* this.components.physics.position.y = 0.5; */
+  this.app.reset();
 };
 
 exports.Bird = Bird;
