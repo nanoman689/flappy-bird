@@ -1,20 +1,16 @@
-var PipeGraphicsComponent = function(entity) {
+var UiGraphicsComponent = function(entity) {
     this.entity = entity;
 };
 
-// Use variables to make the animation //
-
-uiGraphicsComponent.prototype.draw = function(context) {
+UiGraphicsComponent.prototype.draw = function(context) {
     console.log('Drawing Text');
 
     var position = this.entity.position;
 
-    context.save();
-    context.font="48px serif";
+    context.font="72px serif";
     context.fillStyle = "orange";
     context.fillText("Hello There!", 0.5, 0.5);
-    context.restore();
 
 };
 
-exports.uiGraphicsComponent = uiGraphicsComponent;
+exports.UiGraphicsComponent = UiGraphicsComponent;

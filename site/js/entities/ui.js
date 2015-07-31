@@ -1,8 +1,9 @@
 var graphicsComponent = require("../components/graphics/ui");
 
-var ui = function(position) {
+var Ui = function(position) {
 
-  physics.position = position;
+  var graphics = new graphicsComponent.UiGraphicsComponent(this);
+  // physics.position = position;
 
   this.components = {
     graphics: graphics
@@ -10,4 +11,4 @@ var ui = function(position) {
   };
 };
 
-exports.ui = ui;
+exports.Ui = Ui;
