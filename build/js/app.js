@@ -156,7 +156,7 @@ PipeGraphicsComponent.prototype.draw = function(context) {
     var position = this.entity.components.physics.position;
     var dimension = this.entity.components.physics.dimension;
 
-    //console.log("Draw the pipe at " + position.x + ", " + position.y);
+    // console.log("Draw the pipe at " + position.x + ", " + position.y);
     context.save();
     context.translate(position.x, position.y);
     context.fillRect(0, 0, dimension.width, dimension.height);
@@ -307,6 +307,7 @@ Bird.prototype.onCollision = function(entity) {
   console.log("Bird collided with entity:", entity);
   /* this.components.physics.position.y = 0.5; */
   /* this.app.reset(); */
+  window.app.reset();
 };
 
 exports.Bird = Bird;
@@ -397,8 +398,7 @@ var ui = require('./entities/ui');
 var line = require('./entities/line');
 
 var FlappyBird = function() {
-  this.reset();
-  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new ui.Ui({x:0.49,y:0.95}),new line.Line({x:0.49,y:0.5}, {width:0.005, height:0.4})];
+  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new line.Line({x:0.49,y:0.5}, {width:0.005, height:0.4})];
   this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
   this.physics = new physicsSystem.PhysicsSystem(this.entities);
   this.input = new inputSystem.InputSystem(this.entities);
@@ -411,7 +411,10 @@ FlappyBird.prototype.run = function() {
 };
 
 FlappyBird.prototype.reset = function (){
-  this.entities = [new bird.Bird(this), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new ui.Ui()];
+//  this.entities = [new bird.Bird(this), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new ui.Ui()];
+  this.entities.splice(0, this.entities.length);
+  this.entities.push(new bird.Bird);
+  this.entities.push(new pipe.Pipe);
 }
 
 exports.FlappyBird = FlappyBird;
@@ -421,6 +424,7 @@ var flappyBird = require('./flappy_bird');
 
 document.addEventListener('DOMContentLoaded', function() {
   var app = new flappyBird.FlappyBird();
+  window.app = app; /*-- not the best idea --*/
   app.run();
 });
 
@@ -573,6 +577,8 @@ PhysicsSystem.prototype.tick = function() {
 
     }
 
+//  Something is wrong here. Turning this on gives an error that 'x' can not be defined in the physics.line section
+
     this.collisionSystem.tick();
 };
 
@@ -607,8 +613,8 @@ PhysicsSystem.prototype.pipeTick = function(){
 
   */
 
-  this.entities.push(new pipe.Pipe(0.9, 0.8, 0.2, 0.1));
-  this.entities.push(new pipe.Pipe(0.9, 0.1, 0.2, 0.1));
+  // this.entities.push(new pipe.Pipe(0.9, 0.8, 0.2, 0.1));
+  // this.entities.push(new pipe.Pipe(0.9, 0.1, 0.2, 0.1));
 
   console.log("Length of array before: " + this.entities.length);
 

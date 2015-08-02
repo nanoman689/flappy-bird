@@ -7,8 +7,7 @@ var ui = require('./entities/ui');
 var line = require('./entities/line');
 
 var FlappyBird = function() {
-  this.reset();
-  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new ui.Ui({x:0.49,y:0.95}),new line.Line({x:0.49,y:0.5}, {width:0.005, height:0.4})];
+  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new line.Line({x:0.49,y:0.5}, {width:0.005, height:0.4})];
   this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
   this.physics = new physicsSystem.PhysicsSystem(this.entities);
   this.input = new inputSystem.InputSystem(this.entities);
@@ -21,7 +20,10 @@ FlappyBird.prototype.run = function() {
 };
 
 FlappyBird.prototype.reset = function (){
-  this.entities = [new bird.Bird(this), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new ui.Ui()];
+//  this.entities = [new bird.Bird(this), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new ui.Ui()];
+  this.entities.splice(0, this.entities.length);
+  this.entities.push(new bird.Bird);
+  this.entities.push(new pipe.Pipe);
 }
 
 exports.FlappyBird = FlappyBird;

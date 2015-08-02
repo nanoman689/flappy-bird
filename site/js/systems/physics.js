@@ -26,7 +26,9 @@ PhysicsSystem.prototype.tick = function() {
 
     }
 
-    this.collisionSystem.tick();
+//  Something is wrong here. Turning this on gives an error that 'x' can not be defined in the physics.line section
+
+//    this.collisionSystem.tick();
 };
 
 PhysicsSystem.prototype.lineTick = function(){
@@ -60,8 +62,8 @@ PhysicsSystem.prototype.pipeTick = function(){
 
   */
 
-  this.entities.push(new pipe.Pipe(0.9, 0.8, 0.2, 0.1));
-  this.entities.push(new pipe.Pipe(0.9, 0.1, 0.2, 0.1));
+  // this.entities.push(new pipe.Pipe(0.9, 0.8, 0.2, 0.1));
+  // this.entities.push(new pipe.Pipe(0.9, 0.1, 0.2, 0.1));
 
   console.log("Length of array before: " + this.entities.length);
 
