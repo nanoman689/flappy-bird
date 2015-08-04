@@ -579,7 +579,7 @@ PhysicsSystem.prototype.tick = function() {
 
 //  Something is wrong here. Turning this on gives an error that 'x' can not be defined in the physics.line section
 
-    this.collisionSystem.tick();
+//  this.collisionSystem.tick();
 };
 
 PhysicsSystem.prototype.lineTick = function(){
