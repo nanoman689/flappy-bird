@@ -410,12 +410,16 @@ FlappyBird.prototype.run = function() {
   this.input.run();
 };
 
+/* -- Game reset - turned off for now 
+
 FlappyBird.prototype.reset = function (){
 //  this.entities = [new bird.Bird(this), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new ui.Ui()];
   this.entities.splice(0, this.entities.length);
   this.entities.push(new bird.Bird);
-  this.entities.push(new pipe.Pipe);
+  this.entities.push(new pipe.Pipe(0.49,0.95));
 }
+
+*/
 
 exports.FlappyBird = FlappyBird;
 
@@ -461,10 +465,10 @@ CollisionSystem.prototype.tick = function() {
             }
         }
     }
-    this.endGame();
+    // this.endGame();
 };
 
-/* game reset */
+/* -- game reset -- turned off to check if everything else is working
 
 CollisionSystem.prototype.endGame =function () {
     for (var i=0; i<this.entities.length; i++) {
@@ -472,14 +476,17 @@ CollisionSystem.prototype.endGame =function () {
         if (entityA instanceof bird.Bird) {
             console.log("Bird Song");
             if(entityA.collided){
-                    this.entities = [new bird.Bird(25,100)];
-                    console.log("Game Reset");
+                  this.entities = [new bird.Bird(25,100)];
+                  console.log("Game Reset");
             }
         }
-    }    
+    }
 }
 
+*/
+
 exports.CollisionSystem = CollisionSystem;
+
 },{"../entities/bird":10}],17:[function(require,module,exports){
 var GraphicsSystem = function(entities) {
     this.entities = entities;
@@ -572,29 +579,22 @@ PhysicsSystem.prototype.tick = function() {
         if (!'physics' in entity.components) {
             continue;
         }
-
         entity.components.physics.update(1/60);
-
     }
-
-//  Something is wrong here. Turning this on gives an error that 'x' can not be defined in the physics.line section
-
-//  this.collisionSystem.tick();
+  this.collisionSystem.tick();
 };
 
 PhysicsSystem.prototype.lineTick = function(){
 
   console.log("Create a new line");
-
-  this.entities.push(new line.Line(0.9, 0.8, 0.2, 0.1));
-
+  this.entities.push(new line.Line(0.49, 0.95));
   for (var i=0; i < this.entities.length; i++) {
     var entity = this.entities[i];
     console.log(entity);
 
     /* removes the extra pipe */
 
-    if ('position' in entity) {
+    if ('entities.physics.position' in entity) {
       if(entity.position.x < -0.5){
         this.entities.splice(i, 1);
       }

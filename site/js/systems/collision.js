@@ -30,10 +30,10 @@ CollisionSystem.prototype.tick = function() {
             }
         }
     }
-    this.endGame();
+    // this.endGame();
 };
 
-/* game reset */
+/* -- game reset -- turned off to check if everything else is working
 
 CollisionSystem.prototype.endGame =function () {
     for (var i=0; i<this.entities.length; i++) {
@@ -41,11 +41,13 @@ CollisionSystem.prototype.endGame =function () {
         if (entityA instanceof bird.Bird) {
             console.log("Bird Song");
             if(entityA.collided){
-                    this.entities = [new bird.Bird(25,100)];
-                    console.log("Game Reset");
+                  this.entities = [new bird.Bird(25,100)];
+                  console.log("Game Reset");
             }
         }
-    }    
+    }
 }
+
+*/
 
 exports.CollisionSystem = CollisionSystem;

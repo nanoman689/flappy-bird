@@ -21,29 +21,22 @@ PhysicsSystem.prototype.tick = function() {
         if (!'physics' in entity.components) {
             continue;
         }
-
         entity.components.physics.update(1/60);
-
     }
-
-//  Something is wrong here. Turning this on gives an error that 'x' can not be defined in the physics.line section
-
-//  this.collisionSystem.tick();
+  this.collisionSystem.tick();
 };
 
 PhysicsSystem.prototype.lineTick = function(){
 
   console.log("Create a new line");
-
-  this.entities.push(new line.Line(0.9, 0.8, 0.2, 0.1));
-
+  this.entities.push(new line.Line(0.49, 0.95));
   for (var i=0; i < this.entities.length; i++) {
     var entity = this.entities[i];
     console.log(entity);
 
     /* removes the extra pipe */
 
-    if ('position' in entity) {
+    if ('entities.physics.position' in entity) {
       if(entity.position.x < -0.5){
         this.entities.splice(i, 1);
       }
