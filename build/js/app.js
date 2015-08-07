@@ -307,7 +307,7 @@ Bird.prototype.onCollision = function(entity) {
   console.log("Bird collided with entity:", entity);
   /* this.components.physics.position.y = 0.5; */
   /* this.app.reset(); */
-  window.app.reset();
+  // window.app.reset();
 };
 
 exports.Bird = Bird;
@@ -428,7 +428,7 @@ var flappyBird = require('./flappy_bird');
 
 document.addEventListener('DOMContentLoaded', function() {
   var app = new flappyBird.FlappyBird();
-  window.app = app; /*-- not the best idea --*/
+  // window.app = app; /*-- not the best idea --*/
   app.run();
 });
 
@@ -468,7 +468,7 @@ CollisionSystem.prototype.tick = function() {
     // this.endGame();
 };
 
-/* -- game reset -- turned off to check if everything else is working
+/* -- game reset -- turned off to check if everything else is working */
 
 CollisionSystem.prototype.endGame =function () {
     for (var i=0; i<this.entities.length; i++) {
@@ -482,8 +482,6 @@ CollisionSystem.prototype.endGame =function () {
         }
     }
 }
-
-*/
 
 exports.CollisionSystem = CollisionSystem;
 
