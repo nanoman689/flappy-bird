@@ -19,7 +19,7 @@ FlappyBird.prototype.run = function() {
   this.input.run();
 };
 
-/* -- Game reset - turned off for now 
+/* -- Game reset - turned off for now
 
 FlappyBird.prototype.reset = function (){
 //  this.entities = [new bird.Bird(this), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new ui.Ui()];

@@ -410,7 +410,7 @@ FlappyBird.prototype.run = function() {
   this.input.run();
 };
 
-/* -- Game reset - turned off for now 
+/* -- Game reset - turned off for now
 
 FlappyBird.prototype.reset = function (){
 //  this.entities = [new bird.Bird(this), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new ui.Ui()];
@@ -450,10 +450,12 @@ CollisionSystem.prototype.tick = function() {
             var entityB = this.entities[j];
             if (!'collision' in entityB.components) {
                 continue;
+                console.log("Did not B!");
             }
 
             if (!entityA.components.collision.collidesWith(entityB)) {
                 continue;
+                console.log("Did not hit B!");
             }
 
             if (entityA.components.collision.onCollision) {
@@ -585,7 +587,7 @@ PhysicsSystem.prototype.tick = function() {
 PhysicsSystem.prototype.lineTick = function(){
 
   console.log("Create a new line");
-  this.entities.push(new line.Line(0.49, 0.95));
+  // this.entities.push(new line.Line(0.49, 0.95));
   for (var i=0; i < this.entities.length; i++) {
     var entity = this.entities[i];
     console.log(entity);

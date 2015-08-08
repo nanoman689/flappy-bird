@@ -29,7 +29,7 @@ PhysicsSystem.prototype.tick = function() {
 PhysicsSystem.prototype.lineTick = function(){
 
   console.log("Create a new line");
-  this.entities.push(new line.Line(0.49, 0.95));
+  // this.entities.push(new line.Line(0.49, 0.95));
   for (var i=0; i < this.entities.length; i++) {
     var entity = this.entities[i];
     console.log(entity);
