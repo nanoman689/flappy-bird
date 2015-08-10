@@ -16,6 +16,7 @@ CircleCollisionComponent.prototype.collidesWith = function(entity) {
 };
 
 CircleCollisionComponent.prototype.collideCircle = function(entity) {
+    console.debug("HIT!");
     var positionA = this.entity.components.physics.position;
     var positionB = entity.components.physics.position;
 
@@ -47,10 +48,10 @@ CircleCollisionComponent.prototype.collideRect = function(entity) {
     var sizeB = entity.components.collision.size;
 
     var closest = {
-        x: clamp(positionA.x, positionB.x - sizeB.x / 2,
-                 positionB.x + sizeB.x / 2),
-        y: clamp(positionA.y, positionB.y - sizeB.y / 2,
-                 positionB.y + sizeB.y / 2)
+        x: clamp(positionA.x, positionB.x - sizeB.width / 2,
+                 positionB.x + sizeB.width / 2),
+        y: clamp(positionA.y, positionB.y - sizeB.height / 2,
+                 positionB.y + sizeB.height / 2)
     };
 
 
@@ -60,7 +61,7 @@ CircleCollisionComponent.prototype.collideRect = function(entity) {
                 y: positionA.y - closest.y};
 
     var distanceSquared = diff.x * diff.x + diff.y * diff.y;
-    return distanceSquared < radiusA * radiusA;
+    return distanceSquared > radiusA * radiusA;
 };
 
 exports.CircleCollisionComponent = CircleCollisionComponent;
@@ -398,7 +399,7 @@ var ui = require('./entities/ui');
 var line = require('./entities/line');
 
 var FlappyBird = function() {
-  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new line.Line({x:0.49,y:0.5}, {width:0.005, height:0.4})];
+  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4})];
   this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
   this.physics = new physicsSystem.PhysicsSystem(this.entities);
   this.input = new inputSystem.InputSystem(this.entities);
@@ -450,13 +451,15 @@ CollisionSystem.prototype.tick = function() {
             var entityB = this.entities[j];
             if (!'collision' in entityB.components) {
                 continue;
-                console.log("Did not B!");
             }
 
             if (!entityA.components.collision.collidesWith(entityB)) {
+                // console.log(entityA.name, + "did not hit", + entityB.name);
+                // console.log("Did not hit");
                 continue;
-                console.log("Did not hit B!");
             }
+            // console.log(entityA.name, + "did hit", + entityB.name);
+            console.log("Did hit");
 
             if (entityA.components.collision.onCollision) {
                 entityA.components.collision.onCollision(entityB);

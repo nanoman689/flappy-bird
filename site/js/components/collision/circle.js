@@ -15,6 +15,7 @@ CircleCollisionComponent.prototype.collidesWith = function(entity) {
 };
 
 CircleCollisionComponent.prototype.collideCircle = function(entity) {
+    console.debug("HIT!");
     var positionA = this.entity.components.physics.position;
     var positionB = entity.components.physics.position;
 
@@ -59,7 +60,7 @@ CircleCollisionComponent.prototype.collideRect = function(entity) {
                 y: positionA.y - closest.y};
 
     var distanceSquared = diff.x * diff.x + diff.y * diff.y;
-    return distanceSquared < radiusA * radiusA;
+    return distanceSquared > radiusA * radiusA;
 };
 
 exports.CircleCollisionComponent = CircleCollisionComponent;

@@ -7,7 +7,7 @@ var ui = require('./entities/ui');
 var line = require('./entities/line');
 
 var FlappyBird = function() {
-  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4})];
+  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new line.Line({x:0.49,y:0.5}, {width:0.005, height:0.4})];
   this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
   this.physics = new physicsSystem.PhysicsSystem(this.entities);
   this.input = new inputSystem.InputSystem(this.entities);

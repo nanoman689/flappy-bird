@@ -15,13 +15,15 @@ CollisionSystem.prototype.tick = function() {
             var entityB = this.entities[j];
             if (!'collision' in entityB.components) {
                 continue;
-                console.log("Did not B!");
             }
 
             if (!entityA.components.collision.collidesWith(entityB)) {
+                // console.log(entityA.name, + "did not hit", + entityB.name);
+                // console.log("Did not hit");
                 continue;
-                console.log("Did not hit B!");
             }
+            // console.log(entityA.name, + "did hit", + entityB.name);
+            console.log("Did hit");
 
             if (entityA.components.collision.onCollision) {
                 entityA.components.collision.onCollision(entityB);
