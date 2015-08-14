@@ -28,14 +28,19 @@ Bird.prototype.onCollision = function(entity) {
 
   console.log("Bird collided with entity:", entity);
 
-  function changeScore(newScore){
+  function changeScore(){
 
-    var birdScore = document.getElementbyId("score").value;
+    var birdScore = document.getElementById("score");
 
-    var newScore = birdScore + 1;
+    var newScoreA = +birdScore.innerHTML;
+
+    console.log(birdScore.innerHTML);
+
+    var newScore = newScoreA + 1;
 
     birdScore.innerHTML = newScore;
   }
+  changeScore();
 
   console.log(newScore);
 

@@ -311,14 +311,19 @@ Bird.prototype.onCollision = function(entity) {
 
   console.log("Bird collided with entity:", entity);
 
-  function changeScore(newScore){
+  function changeScore(){
 
-    var birdScore = document.getElementbyId("score").value;
+    var birdScore = document.getElementById("score");
 
-    var newScore = birdScore + 1;
+    var newScoreA = +birdScore.innerHTML;
+
+    console.log(birdScore.innerHTML);
+
+    var newScore = newScoreA + 1;
 
     birdScore.innerHTML = newScore;
   }
+  changeScore();
 
   console.log(newScore);
 
@@ -415,7 +420,7 @@ var ui = require('./entities/ui');
 var line = require('./entities/line');
 
 var FlappyBird = function() {
-  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {x:0.03, y:0.4})];
+  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {x:0.03, y:0.4}), new pipe.Pipe({x:0.49,y:0.8}, {x:0.03, y:0.4})];
   this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
   this.physics = new physicsSystem.PhysicsSystem(this.entities);
   this.input = new inputSystem.InputSystem(this.entities);
@@ -626,15 +631,15 @@ PhysicsSystem.prototype.lineTick = function(){
 PhysicsSystem.prototype.pipeTick = function(){
   console.log("Create a new pipe");
 
-  /*
-  var randomWidth = Math.floor(Math.random() * (0.5 - 0.25 + 1)) + 0.25;
+  var randomWidth = Math.random() * (0.45 - 0.2) + 0.2;
 
   console.log(randomWidth + "is now this tall");
 
-  */
+  //--- It's the second length, the y, that you want to change ---//
 
-  // this.entities.push(new pipe.Pipe(0.9, 0.8, 0.2, 0.1));
-  // this.entities.push(new pipe.Pipe(0.9, 0.1, 0.2, 0.1));
+  this.entities.push(new pipe.Pipe({x:0.49,y:0}, {x:0.03, y:randomWidth}));
+
+  this.entities.push(new pipe.Pipe({x:0.49,y:1-randomWidth}, {x:0.03, y:randomWidth}));
 
   console.log("Length of array before: " + this.entities.length);
 

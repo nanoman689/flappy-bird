@@ -48,15 +48,15 @@ PhysicsSystem.prototype.lineTick = function(){
 PhysicsSystem.prototype.pipeTick = function(){
   console.log("Create a new pipe");
 
-  /*
-  var randomWidth = Math.floor(Math.random() * (0.5 - 0.25 + 1)) + 0.25;
+  var randomWidth = Math.random() * (0.45 - 0.2) + 0.2;
 
   console.log(randomWidth + "is now this tall");
 
-  */
+  //--- It's the second length, the y, that you want to change ---//
 
-  // this.entities.push(new pipe.Pipe(0.9, 0.8, 0.2, 0.1));
-  // this.entities.push(new pipe.Pipe(0.9, 0.1, 0.2, 0.1));
+  this.entities.push(new pipe.Pipe({x:0.49,y:0}, {x:0.03, y:randomWidth}));
+
+  this.entities.push(new pipe.Pipe({x:0.49,y:1-randomWidth}, {x:0.03, y:randomWidth}));
 
   console.log("Length of array before: " + this.entities.length);
 
