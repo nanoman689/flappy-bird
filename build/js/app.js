@@ -48,10 +48,10 @@ CircleCollisionComponent.prototype.collideRect = function(entity) {
     var sizeB = entity.components.collision.size;
 
     var closest = {
-        x: clamp(positionA.x, positionB.x - sizeB.width / 2,
-                 positionB.x + sizeB.width / 2),
-        y: clamp(positionA.y, positionB.y - sizeB.height / 2,
-                 positionB.y + sizeB.height / 2)
+        x: clamp(positionA.x, positionB.x - sizeB.x / 2,
+                 positionB.x + sizeB.x / 2),
+        y: clamp(positionA.y, positionB.y - sizeB.y / 2,
+                 positionB.y + sizeB.y / 2)
     };
 
 
@@ -61,7 +61,7 @@ CircleCollisionComponent.prototype.collideRect = function(entity) {
                 y: positionA.y - closest.y};
 
     var distanceSquared = diff.x * diff.x + diff.y * diff.y;
-    return distanceSquared > radiusA * radiusA;
+    return distanceSquared < radiusA * radiusA;
 };
 
 exports.CircleCollisionComponent = CircleCollisionComponent;
@@ -160,7 +160,7 @@ PipeGraphicsComponent.prototype.draw = function(context) {
     // console.log("Draw the pipe at " + position.x + ", " + position.y);
     context.save();
     context.translate(position.x, position.y);
-    context.fillRect(0, 0, dimension.width, dimension.height);
+    context.fillRect(0, 0, dimension.x, dimension.y);
     context.restore();
 };
 
@@ -222,8 +222,8 @@ var PhysicsComponent = function(entity) {
   };
 
   this.dimension = {
-    width: 0.05,
-    height: 0.2
+    x: 0.05,
+    y: 0.2
   };
 
   this.velocity = {
@@ -284,7 +284,7 @@ exports.PhysicsComponent = PhysicsComponent;
 var graphicsComponent = require("../components/graphics/bird");
 var physicsComponent = require("../components/physics/bird");
 var collisionComponent = require("../components/collision/circle");
-
+var newScore = 0;
 
 var Bird = function(fb_app) {
   this.app = fb_app;
@@ -305,7 +305,23 @@ var Bird = function(fb_app) {
 };
 
 Bird.prototype.onCollision = function(entity) {
+  /*-- Bird collision --*/
+
+  /* documentGetElementbyId < to update the score */
+
   console.log("Bird collided with entity:", entity);
+
+  function changeScore(newScore){
+
+    var birdScore = document.getElementbyId("score").value;
+
+    var newScore = birdScore + 1;
+
+    birdScore.innerHTML = newScore;
+  }
+
+  console.log(newScore);
+
   /* this.components.physics.position.y = 0.5; */
   /* this.app.reset(); */
   // window.app.reset();
@@ -399,7 +415,7 @@ var ui = require('./entities/ui');
 var line = require('./entities/line');
 
 var FlappyBird = function() {
-  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4})];
+  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {x:0.03, y:0.4})];
   this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
   this.physics = new physicsSystem.PhysicsSystem(this.entities);
   this.input = new inputSystem.InputSystem(this.entities);
@@ -459,7 +475,7 @@ CollisionSystem.prototype.tick = function() {
                 continue;
             }
             // console.log(entityA.name, + "did hit", + entityB.name);
-            console.log("Did hit");
+            console.log("HIT!");
 
             if (entityA.components.collision.onCollision) {
                 entityA.components.collision.onCollision(entityB);
@@ -473,7 +489,7 @@ CollisionSystem.prototype.tick = function() {
     // this.endGame();
 };
 
-/* -- game reset -- turned off to check if everything else is working */
+/* -- game reset -- turned off to check if everything else is working
 
 CollisionSystem.prototype.endGame =function () {
     for (var i=0; i<this.entities.length; i++) {
@@ -487,6 +503,7 @@ CollisionSystem.prototype.endGame =function () {
         }
     }
 }
+*/
 
 exports.CollisionSystem = CollisionSystem;
 

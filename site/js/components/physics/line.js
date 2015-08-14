@@ -7,8 +7,8 @@ var PhysicsComponent = function(entity) {
   };
 
   this.dimension = {
-    width: 0.05,
-    height: 0.2
+    x: 0.05,
+    y: 0.2
   };
 
   this.velocity = {

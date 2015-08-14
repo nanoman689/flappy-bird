@@ -1,7 +1,7 @@
 var graphicsComponent = require("../components/graphics/bird");
 var physicsComponent = require("../components/physics/bird");
 var collisionComponent = require("../components/collision/circle");
-
+var newScore = 0;
 
 var Bird = function(fb_app) {
   this.app = fb_app;
@@ -22,7 +22,23 @@ var Bird = function(fb_app) {
 };
 
 Bird.prototype.onCollision = function(entity) {
+  /*-- Bird collision --*/
+
+  /* documentGetElementbyId < to update the score */
+
   console.log("Bird collided with entity:", entity);
+
+  function changeScore(newScore){
+
+    var birdScore = document.getElementbyId("score").value;
+
+    var newScore = birdScore + 1;
+
+    birdScore.innerHTML = newScore;
+  }
+
+  console.log(newScore);
+
   /* this.components.physics.position.y = 0.5; */
   /* this.app.reset(); */
   // window.app.reset();

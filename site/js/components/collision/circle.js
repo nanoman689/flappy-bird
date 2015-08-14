@@ -60,7 +60,7 @@ CircleCollisionComponent.prototype.collideRect = function(entity) {
                 y: positionA.y - closest.y};
 
     var distanceSquared = diff.x * diff.x + diff.y * diff.y;
-    return distanceSquared > radiusA * radiusA;
+    return distanceSquared < radiusA * radiusA;
 };
 
 exports.CircleCollisionComponent = CircleCollisionComponent;

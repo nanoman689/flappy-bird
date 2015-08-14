@@ -23,7 +23,7 @@ CollisionSystem.prototype.tick = function() {
                 continue;
             }
             // console.log(entityA.name, + "did hit", + entityB.name);
-            console.log("Did hit");
+            console.log("HIT!");
 
             if (entityA.components.collision.onCollision) {
                 entityA.components.collision.onCollision(entityB);
@@ -37,7 +37,7 @@ CollisionSystem.prototype.tick = function() {
     // this.endGame();
 };
 
-/* -- game reset -- turned off to check if everything else is working */
+/* -- game reset -- turned off to check if everything else is working
 
 CollisionSystem.prototype.endGame =function () {
     for (var i=0; i<this.entities.length; i++) {
@@ -51,5 +51,6 @@ CollisionSystem.prototype.endGame =function () {
         }
     }
 }
+*/
 
 exports.CollisionSystem = CollisionSystem;
