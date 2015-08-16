@@ -24,7 +24,7 @@ var Bird = function(fb_app) {
 Bird.prototype.onCollision = function(entity) {
   /*-- Bird collision --*/
 
-  /* documentGetElementbyId < to update the score */
+  /* documentGetElementbyId < to update the score
 
   console.log("Bird collided with entity:", entity);
 
@@ -43,6 +43,8 @@ Bird.prototype.onCollision = function(entity) {
   changeScore();
 
   console.log(newScore);
+
+  */
 
   /* this.components.physics.position.y = 0.5; */
   /* this.app.reset(); */

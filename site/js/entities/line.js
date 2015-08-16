@@ -1,7 +1,7 @@
 var graphicsComponent = require("../components/graphics/line");
 var physicsComponent = require("../components/physics/line");
 var collisionComponent = require("../components/collision/rect");
-
+var newScore = 0;
 
 var Line = function(position, dimension) {
 
@@ -23,6 +23,29 @@ var Line = function(position, dimension) {
 
 Line.prototype.onCollision = function(entity) {
   console.log("Line collided with entity:", entity);
+
+  /*-- Line collision & Score updater --*/
+
+  /*-- documentGetElementbyId < to update the score --*/
+
+  console.log("Line collided with entity:", entity);
+
+  function changeScore(){
+
+    var birdScore = document.getElementById("score");
+
+    var newScoreA = +birdScore.innerHTML;
+
+    console.log(birdScore.innerHTML);
+
+    var newScore = newScoreA + 1;
+
+    birdScore.innerHTML = newScore;
+  }
+  changeScore();
+
+  console.log(newScore);
+
 };
 
 exports.Line = Line;

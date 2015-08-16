@@ -138,11 +138,11 @@ LineGraphicsComponent.prototype.draw = function(context) {
     var position = this.entity.components.physics.position;
     var dimension = this.entity.components.physics.dimension;
 
-    console.log("Draw the line at " + position.x + ", " + position.y);
+    // console.log("Draw the line at " + position.x + ", " + position.y);
     context.save();
     context.translate(position.x, position.y);
     context.fillStyle="#FF0000";
-    context.fillRect(0, 0, dimension.width, dimension.height);
+    context.fillRect(0, 0, dimension.x, dimension.y);
     context.restore();
 };
 
@@ -160,6 +160,7 @@ PipeGraphicsComponent.prototype.draw = function(context) {
     // console.log("Draw the pipe at " + position.x + ", " + position.y);
     context.save();
     context.translate(position.x, position.y);
+    context.fillStyle="#996600";
     context.fillRect(0, 0, dimension.x, dimension.y);
     context.restore();
 };
@@ -307,7 +308,7 @@ var Bird = function(fb_app) {
 Bird.prototype.onCollision = function(entity) {
   /*-- Bird collision --*/
 
-  /* documentGetElementbyId < to update the score */
+  /* documentGetElementbyId < to update the score
 
   console.log("Bird collided with entity:", entity);
 
@@ -327,6 +328,8 @@ Bird.prototype.onCollision = function(entity) {
 
   console.log(newScore);
 
+  */
+
   /* this.components.physics.position.y = 0.5; */
   /* this.app.reset(); */
   // window.app.reset();
@@ -338,7 +341,7 @@ exports.Bird = Bird;
 var graphicsComponent = require("../components/graphics/line");
 var physicsComponent = require("../components/physics/line");
 var collisionComponent = require("../components/collision/rect");
-
+var newScore = 0;
 
 var Line = function(position, dimension) {
 
@@ -360,6 +363,29 @@ var Line = function(position, dimension) {
 
 Line.prototype.onCollision = function(entity) {
   console.log("Line collided with entity:", entity);
+
+  /*-- Line collision & Score updater --*/
+
+  /*-- documentGetElementbyId < to update the score --*/
+
+  console.log("Line collided with entity:", entity);
+
+  function changeScore(){
+
+    var birdScore = document.getElementById("score");
+
+    var newScoreA = +birdScore.innerHTML;
+
+    console.log(birdScore.innerHTML);
+
+    var newScore = newScoreA + 1;
+
+    birdScore.innerHTML = newScore;
+  }
+  changeScore();
+
+  console.log(newScore);
+
 };
 
 exports.Line = Line;
@@ -420,7 +446,7 @@ var ui = require('./entities/ui');
 var line = require('./entities/line');
 
 var FlappyBird = function() {
-  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {x:0.03, y:0.4}), new pipe.Pipe({x:0.49,y:0.8}, {x:0.03, y:0.4})];
+  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {x:0.03, y:0.4}), new pipe.Pipe({x:0.49,y:0.8}, {x:0.03, y:0.4}), new line.Line({x:0.521,y:0}, {x:0.005, y:1})];
   this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
   this.physics = new physicsSystem.PhysicsSystem(this.entities);
   this.input = new inputSystem.InputSystem(this.entities);
@@ -612,12 +638,15 @@ PhysicsSystem.prototype.tick = function() {
 PhysicsSystem.prototype.lineTick = function(){
 
   console.log("Create a new line");
-  // this.entities.push(new line.Line(0.49, 0.95));
+  //-- Create another line --//
+
+  this.entities.push(new line.Line({x:0.521,y:0}, {x:0.005, y:1}));
+
   for (var i=0; i < this.entities.length; i++) {
     var entity = this.entities[i];
     console.log(entity);
 
-    /* removes the extra pipe */
+    /* removes the extra line */
 
     if ('entities.physics.position' in entity) {
       if(entity.position.x < -0.5){

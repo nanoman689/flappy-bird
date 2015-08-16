@@ -9,6 +9,7 @@ PipeGraphicsComponent.prototype.draw = function(context) {
     // console.log("Draw the pipe at " + position.x + ", " + position.y);
     context.save();
     context.translate(position.x, position.y);
+    context.fillStyle="#996600";
     context.fillRect(0, 0, dimension.x, dimension.y);
     context.restore();
 };

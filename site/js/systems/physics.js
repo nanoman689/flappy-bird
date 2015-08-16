@@ -29,12 +29,15 @@ PhysicsSystem.prototype.tick = function() {
 PhysicsSystem.prototype.lineTick = function(){
 
   console.log("Create a new line");
-  // this.entities.push(new line.Line(0.49, 0.95));
+  //-- Create another line --//
+
+  this.entities.push(new line.Line({x:0.521,y:0}, {x:0.005, y:1}));
+
   for (var i=0; i < this.entities.length; i++) {
     var entity = this.entities[i];
     console.log(entity);
 
-    /* removes the extra pipe */
+    /* removes the extra line */
 
     if ('entities.physics.position' in entity) {
       if(entity.position.x < -0.5){
