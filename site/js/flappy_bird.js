@@ -19,6 +19,9 @@ FlappyBird.prototype.run = function() {
   this.input.run();
 };
 
+FlappyBird.prototype.globalCall = function (){
+  console.log("This is called from a global scope");
+}
 /* -- Game reset - turned off for now
 
 FlappyBird.prototype.reset = function (){
