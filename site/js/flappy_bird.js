@@ -19,9 +19,18 @@ FlappyBird.prototype.run = function() {
   this.input.run();
 };
 
-FlappyBird.prototype.globalCall = function (){
-  console.log("This is called from a global scope");
+FlappyBird.prototype.removeLine = function (line){
+  //-- code to remove the line
+  var entities = this.entities;
+      for(i = 0; i < entities.length; i++){
+        if(line == entities[i]){
+          entities.splice(i,1);
+          break;
+        }
+    }
 }
+
+
 /* -- Game reset - turned off for now
 
 FlappyBird.prototype.reset = function (){

@@ -44,6 +44,8 @@ Line.prototype.onCollision = function(entity) {
   }
   changeScore();
 
+  window.app.removeLine(this);
+
   console.log(newScore);
 
 };

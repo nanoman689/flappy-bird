@@ -384,6 +384,8 @@ Line.prototype.onCollision = function(entity) {
   }
   changeScore();
 
+  window.app.removeLine(this);
+
   console.log(newScore);
 
 };
@@ -458,6 +460,18 @@ FlappyBird.prototype.run = function() {
   this.input.run();
 };
 
+FlappyBird.prototype.removeLine = function (line){
+  //-- code to remove the line
+  var entities = this.entities;
+      for(i = 0; i < entities.length; i++){
+        if(line == entities[i]){
+          entities.splice(i,1);
+          break;
+        }
+    }
+}
+
+
 /* -- Game reset - turned off for now
 
 FlappyBird.prototype.reset = function (){
@@ -474,9 +488,17 @@ exports.FlappyBird = FlappyBird;
 },{"./entities/bird":10,"./entities/line":11,"./entities/pipe":12,"./entities/ui":13,"./systems/graphics":17,"./systems/input":18,"./systems/physics":19}],15:[function(require,module,exports){
 var flappyBird = require('./flappy_bird');
 
+
+
 document.addEventListener('DOMContentLoaded', function() {
+  // add the start button function here //
+
+  function startGame() {
+      console.log("start the game!");
+  }
+
   var app = new flappyBird.FlappyBird();
-  // window.app = app; /*-- not the best idea --*/
+  window.app = app; /*-- not the best idea --*/
   app.run();
 });
 
