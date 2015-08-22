@@ -36,12 +36,12 @@ div#overlay {
 
 #startGame {
 	font-family: 'Francois One', sans-serif;
-	font-size: 4em;
+	font-size: 2em;
 	border-style: solid;
 	background-color: white;
 	width: 50%;
 	align:center;
 	margin:0 auto;
 	position: relative;
-	top: 2em;
+	top: 6em;
 }

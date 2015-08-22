@@ -286,6 +286,7 @@ var graphicsComponent = require("../components/graphics/bird");
 var physicsComponent = require("../components/physics/bird");
 var collisionComponent = require("../components/collision/circle");
 var newScore = 0;
+var pipe = require("../entities/pipe");
 
 var Bird = function(fb_app) {
   this.app = fb_app;
@@ -306,22 +307,19 @@ var Bird = function(fb_app) {
 };
 
 Bird.prototype.onCollision = function(entity) {
+  if (entity instanceof pipe.Pipe){
+    console.log('Bird Hit a Pipe!');
+    window.app.reset();
+  }
   /*-- Bird collision --*/
 
   /* documentGetElementbyId < to update the score
-
   console.log("Bird collided with entity:", entity);
-
   function changeScore(){
-
     var birdScore = document.getElementById("score");
-
     var newScoreA = +birdScore.innerHTML;
-
     console.log(birdScore.innerHTML);
-
     var newScore = newScoreA + 1;
-
     birdScore.innerHTML = newScore;
   }
   changeScore();
@@ -337,7 +335,7 @@ Bird.prototype.onCollision = function(entity) {
 
 exports.Bird = Bird;
 
-},{"../components/collision/circle":1,"../components/graphics/bird":3,"../components/physics/bird":7}],11:[function(require,module,exports){
+},{"../components/collision/circle":1,"../components/graphics/bird":3,"../components/physics/bird":7,"../entities/pipe":12}],11:[function(require,module,exports){
 var graphicsComponent = require("../components/graphics/line");
 var physicsComponent = require("../components/physics/line");
 var collisionComponent = require("../components/collision/rect");
@@ -448,7 +446,7 @@ var ui = require('./entities/ui');
 var line = require('./entities/line');
 
 var FlappyBird = function() {
-  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {x:0.03, y:0.4}), new pipe.Pipe({x:0.49,y:0.8}, {x:0.03, y:0.4}), new line.Line({x:0.521,y:0}, {x:0.005, y:1})];
+  this.entities = [new bird.Bird(), new pipe.Pipe({x:0.49,y:0}, {x:0.03, y:0.4}), new pipe.Pipe({x:0.49,y:0.8}, {x:0.03, y:0.2}), new line.Line({x:0.521,y:0}, {x:0.005, y:1})];
   this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
   this.physics = new physicsSystem.PhysicsSystem(this.entities);
   this.input = new inputSystem.InputSystem(this.entities);
@@ -472,34 +470,51 @@ FlappyBird.prototype.removeLine = function (line){
 }
 
 
-/* -- Game reset - turned off for now
+/* -- Game reset  --*/
 
 FlappyBird.prototype.reset = function (){
-//  this.entities = [new bird.Bird(this), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new ui.Ui()];
-  this.entities.splice(0, this.entities.length);
-  this.entities.push(new bird.Bird);
-  this.entities.push(new pipe.Pipe(0.49,0.95));
-}
+  var endButton = document.getElementById('startGame');
+  endButton.innerHTML = "Game Over </br> Click to try again!";
+  endButton.style.display="block";
 
-*/
+  function resetScore(){
+
+    var birdScore = document.getElementById("score");
+    birdScore.innerHTML = 0;
+
+  }
+
+  resetScore();
+
+//  this.entities = [new bird.Bird(this), new pipe.Pipe({x:0.49,y:0}, {width:0.03, height:0.4}), new pipe.Pipe({x:0.49,y:0.95}, {width:0.03, height:0.3}),new ui.Ui()];
+//  this.entities.splice(0, this.entities.length);
+
+ this.graphics.stop();
+
+//  delete window.app;
+//  this.entities.push(new bird.Bird);
+//  this.entities.push(new pipe.Pipe(0.49,0.95));
+}
 
 exports.FlappyBird = FlappyBird;
 
 },{"./entities/bird":10,"./entities/line":11,"./entities/pipe":12,"./entities/ui":13,"./systems/graphics":17,"./systems/input":18,"./systems/physics":19}],15:[function(require,module,exports){
 var flappyBird = require('./flappy_bird');
 
-
+function startGame() {
+    console.log("start the game!");
+}
 
 document.addEventListener('DOMContentLoaded', function() {
   // add the start button function here //
-
-  function startGame() {
-      console.log("start the game!");
-  }
-
-  var app = new flappyBird.FlappyBird();
-  window.app = app; /*-- not the best idea --*/
-  app.run();
+  var button = document.getElementById('startGame');
+  button.addEventListener('click',function () {
+    console.log("start the game!");
+    var app = new flappyBird.FlappyBird();
+    this.style.display="none";
+    window.app = app; /*-- not the best idea --*/
+    app.run();
+  })
 });
 
 },{"./flappy_bird":14}],16:[function(require,module,exports){
@@ -561,6 +576,8 @@ CollisionSystem.prototype.endGame =function () {
 exports.CollisionSystem = CollisionSystem;
 
 },{"../entities/bird":10}],17:[function(require,module,exports){
+var requestId;
+
 var GraphicsSystem = function(entities) {
     this.entities = entities;
     // Canvas is where we draw
@@ -571,7 +588,14 @@ var GraphicsSystem = function(entities) {
 
 GraphicsSystem.prototype.run = function() {
     // Run the render loop
-    window.requestAnimationFrame(this.tick.bind(this));
+    requestId = window.requestAnimationFrame(this.tick.bind(this));
+};
+
+GraphicsSystem.prototype.stop = function () {
+  if (requestId) {
+    window.cancelAnimationFrame(requestId);
+    requestId = undefined;
+  }
 };
 
 GraphicsSystem.prototype.tick = function() {
@@ -599,7 +623,7 @@ GraphicsSystem.prototype.tick = function() {
 
     this.context.restore();
 
-    window.requestAnimationFrame(this.tick.bind(this));
+    requestId = window.requestAnimationFrame(this.tick.bind(this));
 };
 
 exports.GraphicsSystem = GraphicsSystem;

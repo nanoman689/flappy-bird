@@ -1,3 +1,5 @@
+var requestId;
+
 var GraphicsSystem = function(entities) {
     this.entities = entities;
     // Canvas is where we draw
@@ -8,7 +10,14 @@ var GraphicsSystem = function(entities) {
 
 GraphicsSystem.prototype.run = function() {
     // Run the render loop
-    window.requestAnimationFrame(this.tick.bind(this));
+    requestId = window.requestAnimationFrame(this.tick.bind(this));
+};
+
+GraphicsSystem.prototype.stop = function () {
+  if (requestId) {
+    window.cancelAnimationFrame(requestId);
+    requestId = undefined;
+  }
 };
 
 GraphicsSystem.prototype.tick = function() {
@@ -36,7 +45,7 @@ GraphicsSystem.prototype.tick = function() {
 
     this.context.restore();
 
-    window.requestAnimationFrame(this.tick.bind(this));
+    requestId = window.requestAnimationFrame(this.tick.bind(this));
 };
 
 exports.GraphicsSystem = GraphicsSystem;
